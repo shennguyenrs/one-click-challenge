@@ -34,6 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# Local files
+# Local files & directories configured by the user
 .eslintcache
+.env
 *.pdf
+*.sh
+db/
