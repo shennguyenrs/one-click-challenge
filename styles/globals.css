@@ -1,16 +1,39 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-emerald-400 font-bold text-3xl;
+  }
+
+  input {
+    @apply mb-1 px-3 py-2 border-slate-800 border-2 rounded-md;
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@layer components {
+  .root-wrapper {
+    @apply w-screen h-screen flex flex-col justify-center items-center;
+  }
 
-* {
-  box-sizing: border-box;
+  .btn-base {
+    @apply bg-slate-800 text-white py-2 px-4 rounded cursor-pointer duration-300 ease-in-out active:scale-95;
+  }
+
+  .link-base {
+    @apply hover:underline hover:decoration-blue-500 hover:cursor-pointer;
+  }
+
+  .form-base {
+    @apply flex flex-col my-10;
+  }
+
+  .errors {
+    @apply text-red-500 italic text-sm;
+  }
+
+  .spacer {
+    @apply my-2;
+  }
 }
