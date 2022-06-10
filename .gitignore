@@ -40,3 +40,4 @@ yarn-error.log*
 *.pdf
 *.sh
 db/
+configuration.json
