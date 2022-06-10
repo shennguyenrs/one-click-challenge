@@ -33,8 +33,11 @@ export default function LoginForm(): ReactElement {
         name="email"
         {...form.getInputProps('email')}
       />
-      {form.errors.email && <p className="errors">{form.errors.email}</p>}
-      <span className="spacer"></span>
+      {form.errors.email ? (
+        <p className="errors">{form.errors.email}</p>
+      ) : (
+        <p className="invisible">t</p>
+      )}
       <label htmlFor="password">Password</label>
       <input
         type="password"
@@ -42,12 +45,20 @@ export default function LoginForm(): ReactElement {
         name="password"
         {...form.getInputProps('password')}
       />
-      {form.errors.password && <p className="errors">{form.errors.password}</p>}
+      {form.errors.password ? (
+        <p className="errors">{form.errors.password}</p>
+      ) : (
+        <p className="invisible">t</p>
+      )}
       <span className="spacer"></span>
       <button type="submit" className="btn-base">
         Login
       </button>
-      {form.errors.others && <p className="errors">{form.errors.others}</p>}
+      {form.errors.others ? (
+        <p className="errors">{form.errors.others}</p>
+      ) : (
+        <p className="invisible">t</p>
+      )}
     </form>
   );
 }

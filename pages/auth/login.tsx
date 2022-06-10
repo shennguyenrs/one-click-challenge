@@ -7,12 +7,14 @@ export const Login: NextPage = () => {
     <div className="root-wrapper">
       <h1>Login</h1>
       <LoginForm />
-      <Link href="/auth/register">
-        <p className="link-base">Create new account</p>
-      </Link>
-      <Link href="/auth/register">
-        <p className="link-base">Back to home</p>
-      </Link>
+      <div className="flex flex-col items-center space-y-4">
+        <Link href="/auth/register">
+          <p className="link-base">Create new account</p>
+        </Link>
+        <Link href="/">
+          <p className="link-base">Back to home</p>
+        </Link>
+      </div>
     </div>
   );
 };
