@@ -33,6 +33,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
           permanent: false,
         },
       };
+    } else {
+      return {
+        props: {},
+      };
     }
   }
 
