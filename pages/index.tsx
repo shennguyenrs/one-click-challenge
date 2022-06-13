@@ -1,5 +1,6 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Link from 'next/link';
+import { decodeToken } from '../utils';
 
 const Home: NextPage = () => {
   return (
@@ -15,6 +16,27 @@ const Home: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    const userId = decodeToken(token);
+
+    if (userId) {
+      return {
+        redirect: {
+          destination: '/users/' + userId,
+          permanent: false,
+        },
+      };
+    }
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default Home;

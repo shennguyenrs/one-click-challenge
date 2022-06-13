@@ -1,6 +1,7 @@
-import { NextPage } from 'next';
+import type { NextPage, GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { RegisterForm } from '../../components/forms';
+import { decodeToken } from '../../utils';
 
 export const Register: NextPage = () => {
   return (
@@ -17,6 +18,27 @@ export const Register: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    const userId = decodeToken(token);
+
+    if (userId) {
+      return {
+        redirect: {
+          destination: '/users/' + userId,
+          permanent: false,
+        },
+      };
+    }
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default Register;

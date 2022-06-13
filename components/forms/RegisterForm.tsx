@@ -1,6 +1,10 @@
 import type { ReactElement } from 'react';
+import axios, { AxiosError } from 'axios';
+import http from 'http-status';
+import { useRouter } from 'next/router';
 import { useForm, yupResolver } from '@mantine/form';
 import * as Yup from 'yup';
+import * as constants from '../../libs/constants';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -14,6 +18,7 @@ const schema = Yup.object().shape({
 });
 
 export default function RegisterForm(): ReactElement {
+  const router = useRouter();
   const form = useForm({
     schema: yupResolver(schema),
     initialValues: {
@@ -25,30 +30,40 @@ export default function RegisterForm(): ReactElement {
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    console.log('submited');
+    try {
+      const res = await axios.post(
+        constants.apiRoutes.authentication + '/register',
+        {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        }
+      );
+      form.reset();
+
+      if (res.status === http.CREATED) {
+        router.push('/users/' + res.data.id);
+      }
+    } catch (err) {
+      const res = (err as AxiosError).response;
+
+      if (res && res.data) {
+        form.setErrors({ others: (res.data as { message: string }).message });
+      }
+    }
   };
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)} className="form-base">
       <label htmlFor="name">Username</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        {...form.getInputProps('name')}
-      />
+      <input type="text" name="name" {...form.getInputProps('name')} />
       {form.errors.name ? (
         <p className="errors">{form.errors.name}</p>
       ) : (
         <p className="invisible">t</p>
       )}
       <label htmlFor="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        {...form.getInputProps('email')}
-      />
+      <input type="email" name="email" {...form.getInputProps('email')} />
       {form.errors.email ? (
         <p className="errors">{form.errors.email}</p>
       ) : (
@@ -57,7 +72,6 @@ export default function RegisterForm(): ReactElement {
       <label htmlFor="password">Password</label>
       <input
         type="password"
-        id="password"
         name="password"
         {...form.getInputProps('password')}
       />
@@ -69,7 +83,6 @@ export default function RegisterForm(): ReactElement {
       <label htmlFor="confirmPassword">Confirm Password</label>
       <input
         type="password"
-        id="confirmPassword"
         name="confirmPassword"
         {...form.getInputProps('confirmPassword')}
       />
@@ -82,11 +95,13 @@ export default function RegisterForm(): ReactElement {
       <button type="submit" className="btn-base">
         Register
       </button>
-      {form.errors.others ? (
-        <p className="errors">{form.errors.others}</p>
-      ) : (
-        <p className="invisible">t</p>
-      )}
+      <div className="mt-4 flex justify-center">
+        {form.errors.others ? (
+          <p className="errors">{form.errors.others}</p>
+        ) : (
+          <p className="invisible">t</p>
+        )}
+      </div>
     </form>
   );
 }

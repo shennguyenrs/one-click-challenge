@@ -1,6 +1,10 @@
 import type { ReactElement } from 'react';
+import axios, { AxiosError } from 'axios';
+import http from 'http-status';
+import { useRouter } from 'next/router';
 import { useForm, yupResolver } from '@mantine/form';
 import * as Yup from 'yup';
+import * as constants from '../../libs/constants';
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -12,6 +16,7 @@ const schema = Yup.object().shape({
 });
 
 export default function LoginForm(): ReactElement {
+  const router = useRouter();
   const form = useForm({
     schema: yupResolver(schema),
     initialValues: {
@@ -21,7 +26,23 @@ export default function LoginForm(): ReactElement {
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    console.log('submited');
+    try {
+      const res = await axios.post(
+        constants.apiRoutes.authentication + '/login',
+        values
+      );
+      form.reset();
+
+      if (res.status === http.OK) {
+        router.push('/users/' + res.data.id);
+      }
+    } catch (err) {
+      const res = (err as AxiosError).response;
+
+      if (res && res.data) {
+        form.setErrors({ others: (res.data as { message: string }).message });
+      }
+    }
   };
 
   return (
@@ -54,11 +75,13 @@ export default function LoginForm(): ReactElement {
       <button type="submit" className="btn-base">
         Login
       </button>
-      {form.errors.others ? (
-        <p className="errors">{form.errors.others}</p>
-      ) : (
-        <p className="invisible">t</p>
-      )}
+      <div className="mt-4 flex justify-center">
+        {form.errors.others ? (
+          <p className="errors">{form.errors.others}</p>
+        ) : (
+          <p className="invisible">t</p>
+        )}
+      </div>
     </form>
   );
 }

@@ -1,5 +1,5 @@
 import { Schema, models, model } from 'mongoose';
-import { Resource } from '../interfaces/resource';
+import { Resource } from '../interfaces';
 
 const ResourceSchema = new Schema<Resource>({
   resourceId: {

@@ -10,6 +10,11 @@
   input {
     @apply mb-1 px-3 py-2 border-slate-800 border-2 rounded-md;
   }
+
+  th,
+  td {
+    @apply px-16 py-4;
+  }
 }
 
 @layer components {
