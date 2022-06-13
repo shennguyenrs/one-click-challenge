@@ -1,7 +1,0 @@
-node_modules/
-*.pdf
-*.sh
-.eslintcache
-configuration.json
-.git/
-.next

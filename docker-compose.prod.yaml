@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: mongodatabase
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./mongodb/.env
+    volumes:
+      - mongodata:/data/db
+    expose:
+      - "27017"
+    networks:
+      - backend
+
+  nextapp:
+    container_name: nextapp
+    build:
+      context: ./frontend-dev
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+volumes:
+  mongodata:
+
+networks:
+  backend:
