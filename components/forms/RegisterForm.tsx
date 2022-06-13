@@ -86,8 +86,8 @@ export default function RegisterForm(): ReactElement {
         name="confirmPassword"
         {...form.getInputProps('confirmPassword')}
       />
-      {form.errors.password ? (
-        <p className="errors">{form.errors.password}</p>
+      {form.errors.confirmPassword ? (
+        <p className="errors">{form.errors.confirmPassword}</p>
       ) : (
         <p className="invisible">t</p>
       )}
