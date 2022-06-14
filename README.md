@@ -32,7 +32,7 @@ MONGO_INITDB_ROOT_PASSWORD=
 JWT_SECRET=
 ```
 
-Finnaly, run the production services services using `docker-compose`
+Finnaly, run the production services using `docker-compose`
 
 ```bash
 docker-compose -f ./docker-compose.prod.yaml up -d
