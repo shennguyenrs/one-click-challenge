@@ -33,5 +33,15 @@ JWT_SECRET=
 Finnaly, run the production services services using `docker-compose`
 
 ```bash
-docker-compose -f ./docker-compose.prod.yaml up
+docker-compose -f ./docker-compose.prod.yaml up -d
+```
+
+Clean up after running services
+
+```bash
+docker-compose -f ./docker-compose.prod.yaml rm
+docker image rm one_click_challenge_mongodb
+docker image rm one_click_challenge_nextapp
+docker volume prune
+docker network prune
 ```
