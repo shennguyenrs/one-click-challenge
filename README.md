@@ -1,5 +1,7 @@
 # One Click LCA - Frontend Developer challenge
 
+[Demo video](https://user-images.githubusercontent.com/17680161/173565171-196dea6c-0fab-4438-a92b-0c20202a0a6a.mp4)
+
 ### About
 
 I developed this exercise using these technologies:
