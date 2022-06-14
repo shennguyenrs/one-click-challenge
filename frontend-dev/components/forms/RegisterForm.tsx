@@ -55,15 +55,25 @@ export default function RegisterForm(): ReactElement {
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)} className="form-base">
-      <label htmlFor="name">Username</label>
-      <input type="text" name="name" {...form.getInputProps('name')} />
+      <label htmlFor="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        {...form.getInputProps('name')}
+      />
       {form.errors.name ? (
         <p className="errors">{form.errors.name}</p>
       ) : (
         <p className="invisible">t</p>
       )}
       <label htmlFor="email">Email</label>
-      <input type="email" name="email" {...form.getInputProps('email')} />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        {...form.getInputProps('email')}
+      />
       {form.errors.email ? (
         <p className="errors">{form.errors.email}</p>
       ) : (
@@ -72,6 +82,7 @@ export default function RegisterForm(): ReactElement {
       <label htmlFor="password">Password</label>
       <input
         type="password"
+        id="password"
         name="password"
         {...form.getInputProps('password')}
       />
@@ -83,6 +94,7 @@ export default function RegisterForm(): ReactElement {
       <label htmlFor="confirmPassword">Confirm Password</label>
       <input
         type="password"
+        id="confirmPassword"
         name="confirmPassword"
         {...form.getInputProps('confirmPassword')}
       />

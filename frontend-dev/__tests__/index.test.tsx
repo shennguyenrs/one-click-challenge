@@ -2,9 +2,8 @@ import { render, screen } from '@testing-library/react';
 import Home from '@/pages/index';
 
 describe('Homepage', () => {
-  it('Renders correctly', () => {
+  it('should render all elements', () => {
     render(<Home />);
-
     const heading = screen.getByText(
       'One Click LCA - Front-end developer challenge'
     );

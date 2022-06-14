@@ -23,6 +23,14 @@ export default function DropDownList({
     }
   };
 
+  if (data.length === 0) {
+    return (
+      <select className="py-2 px-4 mr-4 rounded-md bg-white border-2 border-slate-800">
+        <option value={''}>No data</option>
+      </select>
+    );
+  }
+
   return (
     <>
       <select
