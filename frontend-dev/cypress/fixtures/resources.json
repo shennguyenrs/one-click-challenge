@@ -1,0 +1,10 @@
+{
+    "resourceId": "concreteC20",
+    "name": "Concrete C20/25",
+    "impacts": [
+      {
+        "impactGWP100_kgCO2e": "0.0173",
+        "impactAP_kgSO2e": "0.00307"
+      }
+    ]
+}

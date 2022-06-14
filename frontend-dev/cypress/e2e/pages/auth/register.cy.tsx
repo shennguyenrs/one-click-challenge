@@ -1,18 +1,16 @@
 describe("Register page", () => {
-  const correctMail = "tester2@gmail.com";
-  const correctPass = "correctPass";
-  const failedMail = "testing.com";
-  const failedPass = "wrong";
-  const loginedMail = "tester@gmail.com";
-  const loginedPass = "testerpassword";
-  const testerName = "Tester";
+  before("load variables", () => {
+    cy.fixture("authentication").then((auth) => {
+      this.auth = auth;
+    });
+  });
 
   before("register new account and logout", () => {
     cy.visit("/auth/register");
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(loginedMail);
-    cy.get("input[name='password']").type(loginedPass);
-    cy.get("input[name='confirmPassword']").type(loginedPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.loginedMail);
+    cy.get("input[name='password']").type(this.auth.loginedPass);
+    cy.get("input[name='confirmPassword']").type(this.auth.loginedPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/users/");
     cy.get("button").contains("Logout").click();
@@ -26,6 +24,9 @@ describe("Register page", () => {
     cy.visit("/");
     cy.url().should("include", "/users/");
     cy.get("button").contains("Delete account").click();
+    cy.location().should((loc) => {
+      expect(loc.host).to.eq("localhost:3000");
+    });
   });
 
   it("should render all elements", () => {
@@ -42,7 +43,7 @@ describe("Register page", () => {
 
   it("should redirect to home page", () => {
     cy.get("p").contains("Back to home").click();
-    cy.url().should("include", "/");
+    cy.url().should("include", "3000");
   });
 
   it("should redirect to login page", () => {
@@ -60,16 +61,16 @@ describe("Register page", () => {
   });
 
   it("should failed to submit with invalid email", () => {
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(failedMail);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.failedMail);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/auth/register");
   });
 
   it("should failed to submit with invalid password", () => {
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(correctMail);
-    cy.get("input[name='password']").type(failedPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.correctMail);
+    cy.get("input[name='password']").type(this.auth.failedPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/auth/register");
     cy.get("p[class=errors]").contains(
@@ -79,30 +80,30 @@ describe("Register page", () => {
   });
 
   it("should failed to submit with invalid confirm password", () => {
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(correctMail);
-    cy.get("input[name='password']").type(correctPass);
-    cy.get("input[name='confirmPassword']").type(failedPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.correctMail);
+    cy.get("input[name='password']").type(this.auth.correctPass);
+    cy.get("input[name='confirmPassword']").type(this.auth.failedPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/auth/register");
     cy.get("p[class=errors]").contains("Passwords must match");
   });
 
   it("should failed to register with valid email and password", () => {
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(loginedMail);
-    cy.get("input[name='password']").type(correctPass);
-    cy.get("input[name='confirmPassword']").type(correctPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.loginedMail);
+    cy.get("input[name='password']").type(this.auth.correctPass);
+    cy.get("input[name='confirmPassword']").type(this.auth.correctPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/auth/register");
     cy.get("p[class=errors]").contains("User exists");
   });
 
   it("should success to register with valid email and password", () => {
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(correctMail);
-    cy.get("input[name='password']").type(correctPass);
-    cy.get("input[name='confirmPassword']").type(correctPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.correctMail);
+    cy.get("input[name='password']").type(this.auth.correctPass);
+    cy.get("input[name='confirmPassword']").type(this.auth.correctPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/users/");
   });

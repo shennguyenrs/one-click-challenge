@@ -1,18 +1,16 @@
 describe("Login page", () => {
-  const correctMail = "testing2@gmail.com";
-  const correctPass = "correctPass";
-  const failedMail = "testing.com";
-  const failedPass = "wrong";
-  const loginedMail = "tester@gmail.com";
-  const loginedPass = "testerpassword";
-  const testerName = "Tester";
+  before("load variables", () => {
+    cy.fixture("authentication").then((auth) => {
+      this.auth = auth;
+    });
+  });
 
   before("register new account", () => {
     cy.visit("/auth/register");
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(loginedMail);
-    cy.get("input[name='password']").type(loginedPass);
-    cy.get("input[name='confirmPassword']").type(loginedPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.loginedMail);
+    cy.get("input[name='password']").type(this.auth.loginedPass);
+    cy.get("input[name='confirmPassword']").type(this.auth.loginedPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/users/");
     cy.get("button").contains("Logout").click();
@@ -26,7 +24,9 @@ describe("Login page", () => {
     cy.visit("/");
     cy.url().should("include", "/users/");
     cy.get("button").contains("Delete account").click();
-    cy.url().should("include", "/");
+    cy.location().should((loc) => {
+      expect(loc.host).to.eq("localhost:3000");
+    });
   });
 
   it("should render all elements", () => {
@@ -41,7 +41,9 @@ describe("Login page", () => {
 
   it("should redirect to home page", () => {
     cy.get("p").contains("Back to home").click();
-    cy.url().should("include", "/");
+    cy.location().should((loc) => {
+      expect(loc.host).to.eq("localhost:3000");
+    });
   });
 
   it("should redirect to register page", () => {
@@ -57,21 +59,21 @@ describe("Login page", () => {
   });
 
   it("should failed to submit with wrong email", () => {
-    cy.get("input[name='email']").type(failedMail);
+    cy.get("input[name='email']").type(this.auth.failedMail);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
   });
 
   it("should failed to submit with empty password", () => {
-    cy.get("input[name='email']").type(correctMail);
+    cy.get("input[name='email']").type(this.auth.correctMail);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
     cy.get("p[class=errors]").contains("Password is required");
   });
 
   it("should failed with wrong password length", () => {
-    cy.get("input[name='email']").type(correctMail);
-    cy.get("input[name='password']").type(failedPass);
+    cy.get("input[name='email']").type(this.auth.correctMail);
+    cy.get("input[name='password']").type(this.auth.failedPass);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
     cy.get("p[class=errors]").contains(
@@ -80,24 +82,24 @@ describe("Login page", () => {
   });
 
   it("should failed to login with wrong registered information", () => {
-    cy.get("input[name='email']").type(correctMail);
-    cy.get("input[name='password']").type(correctPass);
+    cy.get("input[name='email']").type(this.auth.correctMail);
+    cy.get("input[name='password']").type(this.auth.correctPass);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
     cy.get("p[class=errors]").contains("User not found");
   });
 
   it("should failed with login with wrong password", () => {
-    cy.get("input[name='email']").type(loginedMail);
-    cy.get("input[name='password']").type(correctPass);
+    cy.get("input[name='email']").type(this.auth.loginedMail);
+    cy.get("input[name='password']").type(this.auth.correctPass);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
     cy.get("p[class=errors]").contains("Password is not valid");
   });
 
   it("should login with correct user information", () => {
-    cy.get("input[name='email']").type(loginedMail);
-    cy.get("input[name='password']").type(loginedPass);
+    cy.get("input[name='email']").type(this.auth.loginedMail);
+    cy.get("input[name='password']").type(this.auth.loginedPass);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/users/");
   });

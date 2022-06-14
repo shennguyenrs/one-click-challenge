@@ -1,15 +1,20 @@
 describe("User Page", () => {
-  const loginedMail = "tester@gmail.com";
-  const loginedPass = "testerpassword";
-  const testerName = "Tester";
-  const firstResourceName = "Concrete C20/25";
+  before("load variables", () => {
+    cy.fixture("authentication").then((auth) => {
+      this.auth = auth;
+    });
+
+    cy.fixture("resources").then((resources) => {
+      this.resources = resources;
+    });
+  });
 
   before("register new account", () => {
     cy.visit("/auth/register");
-    cy.get("input[name='name']").type(testerName);
-    cy.get("input[name='email']").type(loginedMail);
-    cy.get("input[name='password']").type(loginedPass);
-    cy.get("input[name='confirmPassword']").type(loginedPass);
+    cy.get("input[name='name']").type(this.auth.testerName);
+    cy.get("input[name='email']").type(this.auth.loginedMail);
+    cy.get("input[name='password']").type(this.auth.loginedPass);
+    cy.get("input[name='confirmPassword']").type(this.auth.loginedPass);
     cy.get("button").contains("Register").click();
     cy.url().should("include", "/users/");
   });
@@ -23,18 +28,18 @@ describe("User Page", () => {
   });
 
   it("should render all elements", () => {
-    cy.get("h1").contains(`Welcome back, ${testerName}`);
+    cy.get("h1").contains(`Welcome back, ${this.auth.testerName}`);
     cy.get("button").contains("Logout");
     cy.get("button").contains("Delete account");
     cy.get("h1").contains("Used resources");
-    cy.get("select").contains(firstResourceName);
+    cy.get("select").contains(this.resources.name);
     cy.get("button").contains("Add & Calculate");
     cy.get("p").contains("Total result");
     cy.get("li").should("have.length", 2).contains("0 kg");
     cy.get("th")
       .should("have.length", 4)
       .each(($th, index) => {
-        expect($th).contains(["Resource", "Quantity", "CO2", "SO2"][index]);
+        expect($th).to.contain(["Resource", "Quantity", "CO2", "SO2"][index]);
       });
   });
 });
