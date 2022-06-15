@@ -4,16 +4,16 @@ import {
   useEffect,
   useMemo,
   createContext,
-} from 'react';
-import axios from 'axios';
-import * as constants from '../libs/constants';
-import * as utils from '../utils';
+} from "react";
+import axios from "axios";
+import * as constants from "../libs/constants";
+import * as utils from "../utils";
 import {
   CleanUser,
   Resource,
   UpdateResource,
   UsedResource,
-} from '../interfaces';
+} from "../interfaces";
 
 export interface USERCTX {
   user: CleanUser | null;
@@ -36,7 +36,7 @@ export default function UserProvider({
 }: {
   children: ReactElement;
 }): ReactElement {
-  const [user, setUser] = useState<USERCTX['user']>(null);
+  const [user, setUser] = useState<USERCTX["user"]>(null);
 
   // Check if user is logged in
   const checkLogined = async () => {
@@ -59,7 +59,7 @@ export default function UserProvider({
     try {
       await axios.delete(`${constants.apiRoutes.authentication}/logout`);
       setUser(null);
-      window.location.reload();
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +70,7 @@ export default function UserProvider({
     try {
       await axios.delete(`${constants.apiRoutes.users}`);
       setUser(null);
-      window.location.reload();
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }

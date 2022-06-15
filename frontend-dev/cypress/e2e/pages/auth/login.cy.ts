@@ -5,15 +5,16 @@ describe("Login page", () => {
     });
   });
 
-  before("register new account", () => {
-    cy.visit("/auth/register");
-    cy.get("input[name='name']").type(this.auth.testerName);
-    cy.get("input[name='email']").type(this.auth.loginedMail);
-    cy.get("input[name='password']").type(this.auth.loginedPass);
-    cy.get("input[name='confirmPassword']").type(this.auth.loginedPass);
-    cy.get("button").contains("Register").click();
-    cy.url().should("include", "/users/");
+  before("register new account and logout", () => {
+    cy.registerNew(
+      this.auth.testerName,
+      this.auth.loginedMail,
+      this.auth.loginedPass
+    );
     cy.get("button").contains("Logout").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/");
+    });
   });
 
   beforeEach("visit login page", () => {
@@ -21,11 +22,9 @@ describe("Login page", () => {
   });
 
   after("delete user account", () => {
-    cy.visit("/");
-    cy.url().should("include", "/users/");
     cy.get("button").contains("Delete account").click();
     cy.location().should((loc) => {
-      expect(loc.host).to.eq("localhost:3000");
+      expect(loc.pathname).to.eq("/");
     });
   });
 
@@ -42,7 +41,7 @@ describe("Login page", () => {
   it("should redirect to home page", () => {
     cy.get("p").contains("Back to home").click();
     cy.location().should((loc) => {
-      expect(loc.host).to.eq("localhost:3000");
+      expect(loc.pathname).to.eq("/");
     });
   });
 

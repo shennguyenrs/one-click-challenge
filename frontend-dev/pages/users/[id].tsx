@@ -1,20 +1,20 @@
-import type { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
-import axios from 'axios';
-import * as constants from '../../libs/constants';
-import { decodeToken } from '../../utils';
-import type { Resource } from '../../interfaces';
-import { UserContext } from '../../contexts/users';
-import DropDownList from '../../components/DropDownList';
-import UsedResourcesTable from '../../components/UsedResourcesTable';
-import TotalImpactsView from '../../components/TotalImpactsView';
+import type { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import axios from "axios";
+import * as constants from "../../libs/constants";
+import { decodeToken } from "../../utils";
+import type { Resource } from "../../interfaces";
+import { UserContext } from "../../contexts/users";
+import DropDownList from "../../components/DropDownList";
+import UsedResourcesTable from "../../components/UsedResourcesTable";
+import TotalImpactsView from "../../components/TotalImpactsView";
 
 interface UserPageProps {
   resourcesList: Resource[];
 }
 
-const baseURL = 'http://localhost:3000';
+const baseURL = "http://localhost:3000";
 
 const UserPage = (props: UserPageProps) => {
   const { resourcesList } = props;
@@ -30,14 +30,14 @@ const UserPage = (props: UserPageProps) => {
   const handleLogout = () => {
     if (logout) {
       logout();
-      router.push('/');
+      // router.push('/');
     }
   };
 
   const handleDeleteAccount = () => {
     if (deleteAccount) {
       deleteAccount();
-      router.push('/');
+      // router.push('/');
     }
   };
 
@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };
@@ -92,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!userId || userId !== id) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
     };

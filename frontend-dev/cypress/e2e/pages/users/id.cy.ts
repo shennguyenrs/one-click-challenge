@@ -10,13 +10,11 @@ describe("User Page", () => {
   });
 
   before("register new account", () => {
-    cy.visit("/auth/register");
-    cy.get("input[name='name']").type(this.auth.testerName);
-    cy.get("input[name='email']").type(this.auth.loginedMail);
-    cy.get("input[name='password']").type(this.auth.loginedPass);
-    cy.get("input[name='confirmPassword']").type(this.auth.loginedPass);
-    cy.get("button").contains("Register").click();
-    cy.url().should("include", "/users/");
+    cy.registerNew(
+      this.auth.testerName,
+      this.auth.loginedMail,
+      this.auth.loginedPass
+    );
   });
 
   beforeEach("visit user page as homepage address", () => {
@@ -25,6 +23,9 @@ describe("User Page", () => {
 
   after("delete user account", () => {
     cy.get("button").contains("Delete account").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/");
+    });
   });
 
   it("should render all elements", () => {
