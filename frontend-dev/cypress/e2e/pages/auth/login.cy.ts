@@ -1,11 +1,11 @@
 describe("Login page", () => {
   before("load variables", () => {
-    cy.fixture("authentication").then((auth) => {
+    cy.fixture("authentication").then(function (auth) {
       this.auth = auth;
     });
   });
 
-  before("register new account and logout", () => {
+  before("register new account and logout", function () {
     cy.registerNew(
       this.auth.testerName,
       this.auth.loginedMail,
@@ -57,20 +57,20 @@ describe("Login page", () => {
     cy.get("p[class=errors]").contains("Password is required");
   });
 
-  it("should failed to submit with wrong email", () => {
+  it("should failed to submit with wrong email", function () {
     cy.get("input[name='email']").type(this.auth.failedMail);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
   });
 
-  it("should failed to submit with empty password", () => {
+  it("should failed to submit with empty password", function () {
     cy.get("input[name='email']").type(this.auth.correctMail);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/auth/login");
     cy.get("p[class=errors]").contains("Password is required");
   });
 
-  it("should failed with wrong password length", () => {
+  it("should failed with wrong password length", function () {
     cy.get("input[name='email']").type(this.auth.correctMail);
     cy.get("input[name='password']").type(this.auth.failedPass);
     cy.get("button").contains("Login").click();
@@ -80,7 +80,7 @@ describe("Login page", () => {
     );
   });
 
-  it("should failed to login with wrong registered information", () => {
+  it("should failed to login with wrong registered information", function () {
     cy.get("input[name='email']").type(this.auth.correctMail);
     cy.get("input[name='password']").type(this.auth.correctPass);
     cy.get("button").contains("Login").click();
@@ -88,7 +88,7 @@ describe("Login page", () => {
     cy.get("p[class=errors]").contains("User not found");
   });
 
-  it("should failed with login with wrong password", () => {
+  it("should failed with login with wrong password", function () {
     cy.get("input[name='email']").type(this.auth.loginedMail);
     cy.get("input[name='password']").type(this.auth.correctPass);
     cy.get("button").contains("Login").click();
@@ -96,10 +96,12 @@ describe("Login page", () => {
     cy.get("p[class=errors]").contains("Password is not valid");
   });
 
-  it("should login with correct user information", () => {
+  it("should login with correct user information", function () {
     cy.get("input[name='email']").type(this.auth.loginedMail);
     cy.get("input[name='password']").type(this.auth.loginedPass);
     cy.get("button").contains("Login").click();
     cy.url().should("include", "/users/");
   });
 });
+
+export {};

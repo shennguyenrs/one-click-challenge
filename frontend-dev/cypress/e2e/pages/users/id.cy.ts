@@ -1,15 +1,15 @@
 describe("User Page", () => {
   before("load variables", () => {
-    cy.fixture("authentication").then((auth) => {
+    cy.fixture("authentication").then(function (auth) {
       this.auth = auth;
     });
 
-    cy.fixture("resources").then((resources) => {
+    cy.fixture("resources").then(function (resources) {
       this.resources = resources;
     });
   });
 
-  before("register new account", () => {
+  before("register new account", function () {
     cy.registerNew(
       this.auth.testerName,
       this.auth.loginedMail,
@@ -28,7 +28,7 @@ describe("User Page", () => {
     });
   });
 
-  it("should render all elements", () => {
+  it("should render all elements", function () {
     cy.get("h1").contains(`Welcome back, ${this.auth.testerName}`);
     cy.get("button").contains("Logout");
     cy.get("button").contains("Delete account");
@@ -44,3 +44,5 @@ describe("User Page", () => {
       });
   });
 });
+
+export {};

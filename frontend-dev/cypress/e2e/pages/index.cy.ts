@@ -19,3 +19,5 @@ describe("Homepage", () => {
     cy.url().should("include", "/register");
   });
 });
+
+export {};

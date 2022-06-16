@@ -1,6 +1,6 @@
 describe("Register page", () => {
   before("load variables", () => {
-    cy.fixture("authentication").then((auth) => {
+    cy.fixture("authentication").then(function (auth) {
       this.auth = auth;
     });
   });
@@ -50,14 +50,14 @@ describe("Register page", () => {
       cy.get("p[class=errors]").contains("Confirm password is required");
     });
 
-    it("should failed to submit with invalid email", () => {
+    it("should failed to submit with invalid email", function () {
       cy.get("input[name='name']").type(this.auth.testerName);
       cy.get("input[name='email']").type(this.auth.failedMail);
       cy.get("button").contains("Register").click();
       cy.url().should("include", "/auth/register");
     });
 
-    it("should failed to submit with invalid password", () => {
+    it("should failed to submit with invalid password", function () {
       cy.get("input[name='name']").type(this.auth.testerName);
       cy.get("input[name='email']").type(this.auth.correctMail);
       cy.get("input[name='password']").type(this.auth.failedPass);
@@ -69,7 +69,7 @@ describe("Register page", () => {
       cy.get("p[class=errors]").contains("Passwords must match");
     });
 
-    it("should failed to submit with invalid confirm password", () => {
+    it("should failed to submit with invalid confirm password", function () {
       cy.get("input[name='name']").type(this.auth.testerName);
       cy.get("input[name='email']").type(this.auth.correctMail);
       cy.get("input[name='password']").type(this.auth.correctPass);
@@ -79,7 +79,7 @@ describe("Register page", () => {
       cy.get("p[class=errors]").contains("Passwords must match");
     });
 
-    it("should success to register with valid email and password", () => {
+    it("should success to register with valid email and password", function () {
       cy.get("input[name='name']").type(this.auth.testerName);
       cy.get("input[name='email']").type(this.auth.correctMail);
       cy.get("input[name='password']").type(this.auth.correctPass);
@@ -90,7 +90,7 @@ describe("Register page", () => {
   });
 
   context("user have exists account", () => {
-    before("register new account and logout", () => {
+    before("register new account and logout", function () {
       cy.registerNew(
         this.auth.testerName,
         this.auth.loginedMail,
@@ -106,7 +106,7 @@ describe("Register page", () => {
       cy.visit("/auth/register");
     });
 
-    after("delete account", () => {
+    after("delete account", function () {
       cy.visit("/auth/login");
       cy.get("input[name='email']").type(this.auth.loginedMail);
       cy.get("input[name='password']").type(this.auth.loginedPass);
@@ -118,7 +118,7 @@ describe("Register page", () => {
       });
     });
 
-    it("should failed to register with valid email and password", () => {
+    it("should failed to register with valid email and password", function () {
       cy.get("input[name='name']").type(this.auth.testerName);
       cy.get("input[name='email']").type(this.auth.loginedMail);
       cy.get("input[name='password']").type(this.auth.correctPass);
@@ -129,3 +129,5 @@ describe("Register page", () => {
     });
   });
 });
+
+export {};

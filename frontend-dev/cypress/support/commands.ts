@@ -47,3 +47,4 @@ Cypress.Commands.add(
     cy.url().should("include", "/users/");
   }
 );
+export {};
