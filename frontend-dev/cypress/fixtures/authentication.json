@@ -1,9 +1,9 @@
 {
   "correctMail": "testing2@gmail.com",
-   "correctPass" : "correctPass",
-   "failedMail" : "testing.com",
-   "failedPass" : "wrong",
-   "loginedMail" : "tester@gmail.com",
-   "loginedPass" : "testerpassword",
-   "testerName" : "Tester"
+  "correctPass": "correctPass",
+  "failedMail": "testing.com",
+  "failedPass": "wrong",
+  "loginedMail": "tester@gmail.com",
+  "loginedPass": "testerpassword",
+  "testerName": "Tester"
 }

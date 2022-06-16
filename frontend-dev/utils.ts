@@ -3,7 +3,7 @@ import { Impacts } from './libs/constants';
 import * as constants from './libs/constants';
 import { UsedResource } from './interfaces';
 
-function roundedToFourth(value: number): number {
+export function roundedToFourth(value: number): number {
   return Math.round(value * 10000) / 10000;
 }
 

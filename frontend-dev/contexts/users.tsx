@@ -4,20 +4,21 @@ import {
   useEffect,
   useMemo,
   createContext,
-} from "react";
-import axios from "axios";
-import * as constants from "../libs/constants";
-import * as utils from "../utils";
+} from 'react';
+import axios from 'axios';
+import * as constants from '../libs/constants';
+import * as utils from '../utils';
 import {
   CleanUser,
   Resource,
   UpdateResource,
   UsedResource,
-} from "../interfaces";
+} from '../interfaces';
 
 export interface USERCTX {
   user: CleanUser | null;
   addResource: ((resource: Resource) => void) | undefined;
+  removeResource: ((resource: Resource) => void) | undefined;
   checkLogined: (() => Promise<void>) | undefined;
   logout: (() => Promise<void>) | undefined;
   deleteAccount: (() => Promise<void>) | undefined;
@@ -26,6 +27,7 @@ export interface USERCTX {
 export const UserContext = createContext<USERCTX>({
   user: null,
   addResource: undefined,
+  removeResource: undefined,
   checkLogined: undefined,
   logout: undefined,
   deleteAccount: undefined,
@@ -36,7 +38,7 @@ export default function UserProvider({
 }: {
   children: ReactElement;
 }): ReactElement {
-  const [user, setUser] = useState<USERCTX["user"]>(null);
+  const [user, setUser] = useState<USERCTX['user']>(null);
 
   // Check if user is logged in
   const checkLogined = async () => {
@@ -59,7 +61,7 @@ export default function UserProvider({
     try {
       await axios.delete(`${constants.apiRoutes.authentication}/logout`);
       setUser(null);
-      window.location.href = "/";
+      window.location.href = '/';
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +72,7 @@ export default function UserProvider({
     try {
       await axios.delete(`${constants.apiRoutes.users}`);
       setUser(null);
-      window.location.href = "/";
+      window.location.href = '/';
     } catch (err) {
       console.log(err);
     }
@@ -148,10 +150,33 @@ export default function UserProvider({
     saveUsedResources(updateResources);
   };
 
+  // Decrease quantity of a resource
+  const removeResource = async (resource: Resource) => {
+    const usedResources = [...(user?.usedResources as UsedResource[])] || [];
+    const newUsedResources = usedResources.map((usedResource: UsedResource) => {
+      if (usedResource.resource.resourceId === resource.resourceId) {
+        const newQuantity = usedResource.quantity - 1;
+        return {
+          ...usedResource,
+          quantity: newQuantity,
+          result: utils.calculateImpacts(resource.impacts[0], newQuantity),
+        };
+      }
+
+      return usedResource;
+    });
+
+    setUser({
+      ...(user as CleanUser),
+      usedResources: newUsedResources,
+    });
+  };
+
   const initialValue = useMemo(() => {
     return {
       user,
       addResource,
+      removeResource,
       checkLogined,
       logout,
       deleteAccount,

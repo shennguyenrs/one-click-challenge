@@ -14,13 +14,18 @@ export default function Lines({
   resource: UsedResource;
 }): ReactElement {
   const [quantity, setQuantity] = useState<number>(resource.quantity);
-  const { addResource } = useContext(UserContext);
+  const { addResource, removeResource } = useContext(UserContext);
 
   const handleChangeQuantity = (e: ChangeEvent) => {
     e.preventDefault();
+    const newValue = Number((e.target as HTMLInputElement).value);
 
-    if (addResource) {
-      addResource(resource.resource);
+    if (newValue > quantity) {
+      addResource && addResource(resource.resource);
+    }
+
+    if (newValue < quantity && newValue > 0) {
+      removeResource && removeResource(resource.resource);
     }
   };
 

@@ -36,15 +36,24 @@
 //   }
 // }
 Cypress.Commands.add(
-  "registerNew",
+  'registerNew',
   (name: string, email: string, password: string) => {
-    cy.visit("/auth/register");
+    cy.visit('/auth/register');
     cy.get("input[name='name']").type(name);
     cy.get("input[name='email']").type(email);
     cy.get("input[name='password']").type(password);
     cy.get("input[name='confirmPassword']").type(password);
-    cy.get("button").contains("Register").click();
-    cy.url().should("include", "/users/");
+    cy.get('button').contains('Register').click();
+    cy.url().should('include', '/users/');
   }
 );
+
+Cypress.Commands.add('loginExist', (email: string, password: string) => {
+  cy.visit('/auth/login');
+  cy.get("input[name='email']").type(email);
+  cy.get("input[name='password']").type(password);
+  cy.get('button').contains('Login').click();
+  cy.url().should('include', '/users/');
+});
+
 export {};
