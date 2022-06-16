@@ -161,44 +161,44 @@ describe('User Page', () => {
     //   });
   });
 
-  // it('should add quantity correctly on click arrow down', function () {
-  //   cy.get('input[type=number]').type('{downarrow}').click();
-  //   cy.get('input[type=number]').should('have.value', 2);
-  //   cy.get('li')
-  //     .should('have.length', 2)
-  //     .each(($li, index) => {
-  //       cy.fixture('resources').then(function ({ impacts }) {
-  //         expect($li).to.contain(
-  //           [
-  //             `CO2e: ${roundedToFourth(
-  //               Number(impacts[0].impactGWP100_kgCO2e) * 2
-  //             )} kg`,
-  //             `SO2e: ${roundedToFourth(
-  //               Number(impacts[0].impactAP_kgSO2e) * 2
-  //             )} kg`,
-  //           ][index]
-  //         );
-  //       });
-  //     });
-  //   cy.get('td')
-  //     .should('have.length', 4)
-  //     .each(($th, index) => {
-  //       if ([2, 3].includes(index)) {
-  //         cy.fixture('resources').then(function ({ impacts }) {
-  //           expect($th).to.contain(
-  //             [
-  //               '',
-  //               '',
-  //               `${roundedToFourth(
-  //                 Number(impacts[0].impactGWP100_kgCO2e) * 2
-  //               )}`,
-  //               `${roundedToFourth(Number(impacts[0].impactAP_kgSO2e) * 2)}`,
-  //             ][index]
-  //           );
-  //         });
-  //       }
-  //     });
-  // });
+  it('should add quantity correctly on click arrow down', function () {
+    cy.get('input[type=number]').type('{downarrow}').click();
+    cy.get('input[type=number]').should('have.value', 1);
+    //   cy.get('li')
+    //     .should('have.length', 2)
+    //     .each(($li, index) => {
+    //       cy.fixture('resources').then(function ({ impacts }) {
+    //         expect($li).to.contain(
+    //           [
+    //             `CO2e: ${roundedToFourth(
+    //               Number(impacts[0].impactGWP100_kgCO2e) * 2
+    //             )} kg`,
+    //             `SO2e: ${roundedToFourth(
+    //               Number(impacts[0].impactAP_kgSO2e) * 2
+    //             )} kg`,
+    //           ][index]
+    //         );
+    //       });
+    //     });
+    //   cy.get('td')
+    //     .should('have.length', 4)
+    //     .each(($th, index) => {
+    //       if ([2, 3].includes(index)) {
+    //         cy.fixture('resources').then(function ({ impacts }) {
+    //           expect($th).to.contain(
+    //             [
+    //               '',
+    //               '',
+    //               `${roundedToFourth(
+    //                 Number(impacts[0].impactGWP100_kgCO2e) * 2
+    //               )}`,
+    //               `${roundedToFourth(Number(impacts[0].impactAP_kgSO2e) * 2)}`,
+    //             ][index]
+    //           );
+    //         });
+    //       }
+    //     });
+  });
 });
 
 export {};
